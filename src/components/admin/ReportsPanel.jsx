@@ -364,26 +364,29 @@ export default function ReportsPanel() {
     <div className="flex flex-col gap-lg">
       {/* Official Print Header (Visible only when printing) */}
       <div className="print-header print-only" style={{ direction: 'rtl', fontFamily: 'Cairo, sans-serif', width: '100%' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderBottom: '2px solid #000', paddingBottom: '15px', marginBottom: '25px', width: '100%' }}>
-          {/* Logo Section */}
-          <img 
-            src="/moh_logo.png" 
-            alt="وزارة الصحة العراقية" 
-            style={{ height: '90px', objectFit: 'contain', marginBottom: '10px' }} 
-          />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #000', paddingBottom: '10px', marginBottom: '20px', width: '100%' }}>
+          {/* Right side: Logo + Ministry + Department */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '35%', justifyContent: 'flex-start' }}>
+            <img 
+              src="/moh_logo.png" 
+              alt="وزارة الصحة العراقية" 
+              style={{ height: '55px', objectFit: 'contain' }} 
+            />
+            <div>
+              <h2 style={{ fontSize: '11pt', fontWeight: 'bold', margin: 0, color: '#000', lineHeight: 1.2 }}>وزارة الصحة العراقية</h2>
+              <p style={{ fontSize: '9pt', margin: '2px 0 0 0', color: '#475569', fontWeight: '600' }}>قسم صحة الفم والأسنان</p>
+            </div>
+          </div>
           
-          {/* Department */}
-          <h2 style={{ fontSize: '12pt', fontWeight: 'bold', margin: '4px 0', color: '#000' }}>وزارة الصحة العراقية</h2>
-          <p style={{ fontSize: '10pt', margin: '2px 0 10px 0', color: '#475569', fontWeight: '600' }}>قسم صحة الفم والأسنان</p>
+          {/* Center: Platform Title + Report Description */}
+          <div style={{ width: '30%', textAlign: 'center' }}>
+            <h1 style={{ fontSize: '11pt', fontWeight: 'bold', margin: 0, color: '#000', lineHeight: 1.2 }}>منصة التقييم الصحي</h1>
+            <p style={{ fontSize: '9pt', margin: '2px 0 0 0', color: '#475569' }}>تقرير تقييم الأداء والامتثال الميداني</p>
+          </div>
           
-          {/* Title */}
-          <h1 style={{ fontSize: '18pt', fontWeight: 'black', margin: '10px 0 5px 0', color: '#000' }}>منصة التقييم الصحي</h1>
-          <p style={{ fontSize: '11pt', margin: '2px 0 12px 0', color: '#475569' }}>تقرير تقييم الأداء والامتثال الميداني</p>
-          
-          {/* Metadata */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '9pt', color: '#475569', marginTop: '5px', padding: '0 10px' }}>
-            <span>تاريخ الطباعة: {new Date().toLocaleDateString('ar-IQ')}</span>
-            <span>التقرير الوطني الموحد</span>
+          {/* Left side: Date only */}
+          <div style={{ width: '35%', textAlign: 'left', fontSize: '9pt', color: '#000', fontWeight: '500' }}>
+            <p>التاريخ: {new Date().toLocaleDateString('ar-IQ')}</p>
           </div>
         </div>
       </div>
