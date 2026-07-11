@@ -614,16 +614,17 @@ export default function ReportsPanel() {
             <div className="flex flex-col gap-lg">
               {/* Header filters for Health Centers */}
               <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
-                <div className="grid cols-3 gap-sm">
-                  <div>
-                    <label className="text-xxs text-secondary block mb-xs">الدائرة الصحية</label>
+                <div className="flex flex-wrap gap-md items-center">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label className="text-xxs text-secondary font-semibold">الدائرة الصحية</label>
                     <select
-                      className="form-select py-xs text-xs"
+                      className="form-select text-xs"
                       value={selectedDirId}
                       onChange={(e) => {
                         setSelectedDirId(e.target.value);
                         setSelectedSectorId('all');
                       }}
+                      style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
                     >
                       <option value="all">كل الدوائر الصحية...</option>
                       {directorates.map(d => (
@@ -632,13 +633,14 @@ export default function ReportsPanel() {
                     </select>
                   </div>
 
-                  <div>
-                    <label className="text-xxs text-secondary block mb-xs">القطاع الصحي</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label className="text-xxs text-secondary font-semibold">القطاع الصحي</label>
                     <select
-                      className="form-select py-xs text-xs"
+                      className="form-select text-xs"
                       disabled={selectedDirId === 'all'}
                       value={selectedSectorId}
                       onChange={(e) => setSelectedSectorId(e.target.value)}
+                      style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
                     >
                       <option value="all">كل القطاعات...</option>
                       {selectedDirId !== 'all' && directorates.find(d => d.id === parseInt(selectedDirId))?.sectors.map(s => (
@@ -647,12 +649,13 @@ export default function ReportsPanel() {
                     </select>
                   </div>
 
-                  <div>
-                    <label className="text-xxs text-secondary block mb-xs">الترتيب والفرز</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label className="text-xxs text-secondary font-semibold">الترتيب والفرز</label>
                     <select
-                      className="form-select py-xs text-xs"
+                      className="form-select text-xs"
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
+                      style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
                     >
                       <option value="none">ترتيب افتراضي</option>
                       <option value="highest">التقييم الأعلى</option>
@@ -753,13 +756,14 @@ export default function ReportsPanel() {
             <div className="flex flex-col gap-lg">
               {/* Header filters for Specialized Centers */}
               <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
-                <div className="grid cols-2 gap-sm">
-                  <div>
-                    <label className="text-xxs text-secondary block mb-xs">الدائرة الصحية</label>
+                <div className="flex flex-wrap gap-md items-center">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label className="text-xxs text-secondary font-semibold">الدائرة الصحية</label>
                     <select
-                      className="form-select py-xs text-xs"
+                      className="form-select text-xs"
                       value={selectedDirId}
                       onChange={(e) => setSelectedDirId(e.target.value)}
+                      style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
                     >
                       <option value="all">كل الدوائر الصحية...</option>
                       {directorates.map(d => (
@@ -768,12 +772,13 @@ export default function ReportsPanel() {
                     </select>
                   </div>
 
-                  <div>
-                    <label className="text-xxs text-secondary block mb-xs">الترتيب والفرز</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label className="text-xxs text-secondary font-semibold">الترتيب والفرز</label>
                     <select
-                      className="form-select py-xs text-xs"
+                      className="form-select text-xs"
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
+                      style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
                     >
                       <option value="none">ترتيب افتراضي</option>
                       <option value="highest">التقييم الأعلى</option>
