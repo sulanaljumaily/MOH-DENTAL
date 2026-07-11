@@ -4,7 +4,7 @@ import {
   BarChart3, Search, MapPin, Award, TrendingUp, Download, Sparkles,
   ChevronRight, Building2, Stethoscope, Send, Building, CheckCircle,
   FileText, Activity, ShieldCheck, Users, Clock, FlaskConical, Wrench,
-  BookOpen
+  BookOpen, Filter
 } from 'lucide-react';
 
 function getScoreClass(s) {
@@ -39,6 +39,11 @@ export default function ReportsPanel() {
   const [selectedSectorId, setSelectedSectorId] = useState('all');
   const [sortBy, setSortBy] = useState('none'); // 'none', 'highest', 'lowest'
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Overview Top Performers Filters
+  const [overviewLimit, setOverviewLimit] = useState(10);
+  const [overviewDirId, setOverviewDirId] = useState('all');
+  const [overviewSectorId, setOverviewSectorId] = useState('all');
   
   // AI Chat State
   const [aiPrompt, setAiPrompt] = useState('');
@@ -231,6 +236,15 @@ export default function ReportsPanel() {
       );
     }
   };
+
+  // Filter and sort for Overview Top Performers
+  const overviewFilteredHCs = allHealthCenters.filter(c => {
+    const matchesDir = overviewDirId === 'all' || c.directorateId === parseInt(overviewDirId);
+    const matchesSector = overviewSectorId === 'all' || c.sectorId === parseInt(overviewSectorId);
+    return c.status === 'evaluated' && matchesDir && matchesSector;
+  });
+  const sortedOverviewHCs = [...overviewFilteredHCs].sort((a, b) => (b.score || 0) - (a.score || 0));
+  const topHCsToShow = sortedOverviewHCs.slice(0, overviewLimit);
 
   const handlePrintPDF = () => {
     window.print();
@@ -470,36 +484,108 @@ export default function ReportsPanel() {
             </div>
           </div>
 
+          {/* Filters for Top performers list */}
+          {evaluatedHCVal > 0 && (
+            <div className="p-md bg-card rounded-lg border border-color flex flex-wrap gap-md items-center justify-between print-none" style={{ marginTop: 'var(--space-sm)' }}>
+              <div className="flex items-center gap-xs">
+                <Filter size={15} className="text-accent-blue" />
+                <span className="text-primary font-bold text-xs">تصفية المتصدرين:</span>
+              </div>
+              
+              <div className="flex flex-wrap gap-md items-center">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <label className="text-xxs text-secondary font-semibold">عرض العدد</label>
+                  <select 
+                    className="form-select text-xs" 
+                    value={overviewLimit} 
+                    onChange={(e) => setOverviewLimit(parseInt(e.target.value))}
+                    style={{ minWidth: '80px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                    <option value={1000}>الكل</option>
+                  </select>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <label className="text-xxs text-secondary font-semibold">الدائرة الصحية</label>
+                  <select 
+                    className="form-select text-xs" 
+                    value={overviewDirId} 
+                    onChange={(e) => {
+                      setOverviewDirId(e.target.value);
+                      setOverviewSectorId('all');
+                    }}
+                    style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
+                  >
+                    <option value="all">كل الدوائر الصحية</option>
+                    {directorates.map(d => (
+                      <option key={d.id} value={d.id}>{d.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <label className="text-xxs text-secondary font-semibold">القطاع الصحي</label>
+                  <select 
+                    className="form-select text-xs" 
+                    disabled={overviewDirId === 'all'}
+                    value={overviewSectorId} 
+                    onChange={(e) => setOverviewSectorId(e.target.value)}
+                    style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
+                  >
+                    <option value="all">كل القطاعات</option>
+                    {overviewDirId !== 'all' && directorates.find(d => d.id === parseInt(overviewDirId))?.sectors.map(s => (
+                      <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Top performers table */}
           {evaluatedHCVal > 0 && (
             <div style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-              <div style={{ padding: 'var(--space-md) var(--space-lg)', background: 'rgba(15,23,42,0.03)', borderBottom: '1px solid var(--border-color)' }}>
-                <span className="text-primary font-bold text-xs">🏆 أفضل المراكز الصحية أداءً على المستوى الوطني</span>
+              <div style={{ padding: 'var(--space-md) var(--space-lg)', background: 'rgba(15,23,42,0.03)', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span className="text-primary font-bold text-xs">🏆 أفضل المراكز الصحية أداءً ({overviewLimit === 1000 ? 'الكل' : overviewLimit} مراكز)</span>
               </div>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th style={{ textAlign: 'right' }}>#</th>
-                    <th style={{ textAlign: 'right' }}>المركز الصحي</th>
-                    <th style={{ textAlign: 'right' }}>الدائرة / القطاع</th>
-                    <th style={{ textAlign: 'center' }}>الخدمة 40%</th>
-                    <th style={{ textAlign: 'center' }}>المؤشرات 60%</th>
-                    <th style={{ textAlign: 'center' }}>النتيجة النهائية</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allHealthCenters.filter(c => c.status === 'evaluated').sort((a,b) => b.score - a.score).slice(0, 5).map((c, idx) => (
-                    <tr key={c.id}>
-                      <td style={{ color: idx === 0 ? '#f59e0b' : 'var(--text-muted)', fontWeight: 800 }}>{idx + 1}</td>
-                      <td style={{ fontWeight: 700 }}>{c.name}</td>
-                      <td style={{ color: 'var(--text-secondary)', fontSize: 10 }}>{c.directorateName} • {c.sectorName}</td>
-                      <td style={{ textAlign: 'center', fontWeight: 800, color: '#3b82f6' }}>{c.serviceScore}</td>
-                      <td style={{ textAlign: 'center', fontWeight: 800, color: '#ef4444' }}>{c.indicatorScore}</td>
-                      <td style={{ textAlign: 'center' }}><ScoreBadge score={c.score} /></td>
+              <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', width: '100%' }}>
+                <table className="data-table" style={{ minWidth: '600px', width: '100%', tableLayout: 'fixed' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ width: '45px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>#</th>
+                      <th style={{ width: '150px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'right' }}>المركز الصحي</th>
+                      <th style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'right' }}>الدائرة / القطاع</th>
+                      <th style={{ width: '90px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>الخدمة 40%</th>
+                      <th style={{ width: '90px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>المؤشرات 60%</th>
+                      <th style={{ width: '110px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>النتيجة النهائية</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {topHCsToShow.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--text-secondary)' }}>
+                          لا توجد مراكز صحية مقيّمة تطابق خيارات التصفية المحددة.
+                        </td>
+                      </tr>
+                    ) : (
+                      topHCsToShow.map((c, idx) => (
+                        <tr key={c.id}>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', color: idx === 0 ? '#f59e0b' : 'var(--text-muted)', fontWeight: 800 }}>{idx + 1}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={c.name}>{c.name}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', color: 'var(--text-secondary)', fontSize: '9px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={`${c.directorateName} • ${c.sectorName}`}>{c.directorateName} • {c.sectorName}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', fontWeight: 800, color: '#3b82f6' }}>{c.serviceScore}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', fontWeight: 800, color: '#ef4444' }}>{c.indicatorScore}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}><ScoreBadge score={c.score} /></td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </div>
