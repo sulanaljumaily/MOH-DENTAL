@@ -19,6 +19,12 @@ function ScoreBadge({ score, pending = 'قيد الانتظار' }) {
   if (!score && score !== 0) return <span className="score-badge pending">{pending}</span>;
   return <span className={`score-badge ${getScoreClass(score)}`}>{score}%</span>;
 }
+
+const formatCenterName = (name) => {
+  if (!name) return '';
+  const clean = name.replace(/^مركز صحي\s+/, '').trim();
+  return `م.ص ${clean}`;
+};
 import { 
   ResponsiveContainer, 
   BarChart, 
@@ -590,7 +596,7 @@ export default function ReportsPanel() {
                       topHCsToShow.map((c, idx) => (
                         <tr key={c.id}>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', color: idx === 0 ? '#f59e0b' : 'var(--text-muted)', fontWeight: 800 }}>{idx + 1}</td>
-                          <td style={{ padding: 'var(--space-md) var(--space-xs)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={c.name}>{c.name}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={formatCenterName(c.name)}>{formatCenterName(c.name)}</td>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', color: 'var(--text-secondary)', fontSize: '10px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={c.directorateName}>{c.directorateName.replace("دائرة صحة ", "").replace("دائرة صحة", "").trim()}</td>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', color: 'var(--text-secondary)', fontSize: '10px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={c.sectorName}>{c.sectorName}</td>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', fontWeight: 800, color: '#3b82f6' }}>{c.serviceScore}</td>
@@ -748,7 +754,7 @@ export default function ReportsPanel() {
                         ) : filteredHCs.map((c) => (
                           <tr key={c.id}>
                             <td style={{ textAlign: 'right', fontWeight: 700 }}>{c.sectorName}</td>
-                            <td style={{ textAlign: 'right', fontWeight: 600 }}>{c.name}</td>
+                            <td style={{ textAlign: 'right', fontWeight: 600 }} title={formatCenterName(c.name)}>{formatCenterName(c.name)}</td>
                             <td style={{ textAlign: 'center', fontWeight: 800, color: '#3b82f6' }}>
                               {c.status === 'evaluated' ? c.serviceScore : <span style={{ color: 'var(--text-muted)' }}>—</span>}
                             </td>
@@ -965,7 +971,7 @@ export default function ReportsPanel() {
                     filteredHCs.map((c) => (
                       <tr key={c.id} style={{ borderBottom: '1px solid var(--border-color)', transition: 'background-color var(--transition-normal)' }} className="hover:bg-card-hover">
                         <td style={{ padding: 'var(--space-md)', textAlign: 'right', fontWeight: 'bold' }}>{c.sectorName}</td>
-                        <td style={{ padding: 'var(--space-md)', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 'semibold' }}>{c.name}</td>
+                        <td style={{ padding: 'var(--space-md)', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 'semibold' }} title={formatCenterName(c.name)}>{formatCenterName(c.name)}</td>
                         <td style={{ padding: 'var(--space-md)' }}>{renderDeviationBadge(c.answers, 'q_chair')}</td>
                         <td style={{ padding: 'var(--space-md)' }}>{renderDeviationBadge(c.answers, 'q_xray')}</td>
                         <td style={{ padding: 'var(--space-md)' }}>{renderDeviationBadge(c.answers, 'q_materials', true)}</td>
