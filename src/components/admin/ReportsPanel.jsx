@@ -621,6 +621,31 @@ export default function ReportsPanel() {
           {/* 1. HEALTH CENTERS REPORT */}
           {dirSubTab === 'health' && (
             <div className="flex flex-col gap-lg">
+              {/* Clustered Bar Chart matching PDF page 2 */}
+              {chartData.length > 0 ? (
+                <div className="chart-container">
+                  <h3 className="chart-title flex items-center gap-sm">
+                    <BarChart3 size={16} className="text-accent-green" /> مقارنة مؤشر الخدمة 40% والمؤشرات 60% للمراكز
+                  </h3>
+                  <div style={{ width: '100%', height: 260, direction: 'ltr' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={chartData} margin={{ top: 20, right: 0, left: -25, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                        <XAxis dataKey="name" stroke="#64748b" fontSize={9} tickLine={false} />
+                        <YAxis stroke="#64748b" fontSize={9} tickLine={false} />
+                        <Tooltip contentStyle={{ backgroundColor: '#0f1d32', borderColor: 'rgba(255,255,255,0.08)', color: '#f1f5f9', fontFamily: 'Cairo' }} />
+                        <Legend wrapperStyle={{ fontFamily: 'Cairo', fontSize: 10 }} />
+                        <Bar dataKey="الخدمة 40%" fill="#3b82f6" radius={[2, 2, 0, 0]} />
+                        <Bar dataKey="المؤشرات 60%" fill="#ef4444" radius={[2, 2, 0, 0]} />
+                        <Bar dataKey="النتيجة الكلية 100%" fill="#10b981" radius={[2, 2, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              ) : (
+                <div className="badge badge-orange py-md justify-center">لا توجد مراكز مقيّمة حالياً لمطابقتها في المخطط البياني</div>
+              )}
+
               {/* Header filters for Health Centers */}
               <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
                 <div className="flex flex-wrap gap-md items-center">
@@ -683,31 +708,6 @@ export default function ReportsPanel() {
                   />
                 </div>
               </div>
-              
-              {/* Clustered Bar Chart matching PDF page 2 */}
-              {chartData.length > 0 ? (
-                <div className="chart-container">
-                  <h3 className="chart-title flex items-center gap-sm">
-                    <BarChart3 size={16} className="text-accent-green" /> مقارنة مؤشر الخدمة 40% والمؤشرات 60% للمراكز
-                  </h3>
-                  <div style={{ width: '100%', height: 260, direction: 'ltr' }}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={chartData} margin={{ top: 20, right: 0, left: -25, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                        <XAxis dataKey="name" stroke="#64748b" fontSize={9} tickLine={false} />
-                        <YAxis stroke="#64748b" fontSize={9} tickLine={false} />
-                        <Tooltip contentStyle={{ backgroundColor: '#0f1d32', borderColor: 'rgba(255,255,255,0.08)', color: '#f1f5f9', fontFamily: 'Cairo' }} />
-                        <Legend wrapperStyle={{ fontFamily: 'Cairo', fontSize: 10 }} />
-                        <Bar dataKey="الخدمة 40%" fill="#3b82f6" radius={[2, 2, 0, 0]} />
-                        <Bar dataKey="المؤشرات 60%" fill="#ef4444" radius={[2, 2, 0, 0]} />
-                        <Bar dataKey="النتيجة الكلية 100%" fill="#10b981" radius={[2, 2, 0, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              ) : (
-                <div className="badge badge-orange py-md justify-center">لا توجد مراكز مقيّمة حالياً لمطابقتها في المخطط البياني</div>
-              )}
 
               <div className="flex flex-col gap-sm">
                 <div className="flex justify-between items-center">
@@ -763,6 +763,31 @@ export default function ReportsPanel() {
           {/* 2. SPECIALIZED CENTERS REPORT */}
           {dirSubTab === 'specialized' && (
             <div className="flex flex-col gap-lg">
+              {/* Clustered Bar Chart for Specialized Centers */}
+              {specChartData.length > 0 ? (
+                <div className="chart-container">
+                  <h3 className="chart-title flex items-center gap-sm">
+                    <BarChart3 size={16} className="text-accent-green" /> مقارنة مؤشر الملاك والسجلات 50% والأجهزة والوقاية 50% للمراكز التخصصية
+                  </h3>
+                  <div style={{ width: '100%', height: 260, direction: 'ltr' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={specChartData} margin={{ top: 20, right: 0, left: -25, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                        <XAxis dataKey="name" stroke="#64748b" fontSize={9} tickLine={false} />
+                        <YAxis stroke="#64748b" fontSize={9} tickLine={false} />
+                        <Tooltip contentStyle={{ backgroundColor: '#0f1d32', borderColor: 'rgba(255,255,255,0.08)', color: '#f1f5f9', fontFamily: 'Cairo' }} />
+                        <Legend wrapperStyle={{ fontFamily: 'Cairo', fontSize: 10 }} />
+                        <Bar dataKey="الملاك والسجلات 50%" fill="#a855f7" radius={[2, 2, 0, 0]} />
+                        <Bar dataKey="الأجهزة والوقاية 50%" fill="#f59e0b" radius={[2, 2, 0, 0]} />
+                        <Bar dataKey="النتيجة الكلية 100%" fill="#10b981" radius={[2, 2, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              ) : (
+                <div className="badge badge-orange py-md justify-center">لا توجد مراكز تخصصية مقيّمة حالياً لمطابقتها في المخطط البياني</div>
+              )}
+
               {/* Header filters for Specialized Centers */}
               <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
                 <div className="flex flex-wrap gap-md items-center">
@@ -796,30 +821,6 @@ export default function ReportsPanel() {
                   </div>
                 </div>
               </div>
-              {/* Clustered Bar Chart for Specialized Centers */}
-              {specChartData.length > 0 ? (
-                <div className="chart-container">
-                  <h3 className="chart-title flex items-center gap-sm">
-                    <BarChart3 size={16} className="text-accent-green" /> مقارنة مؤشر الملاك والسجلات 50% والأجهزة والوقاية 50% للمراكز التخصصية
-                  </h3>
-                  <div style={{ width: '100%', height: 260, direction: 'ltr' }}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={specChartData} margin={{ top: 20, right: 0, left: -25, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                        <XAxis dataKey="name" stroke="#64748b" fontSize={9} tickLine={false} />
-                        <YAxis stroke="#64748b" fontSize={9} tickLine={false} />
-                        <Tooltip contentStyle={{ backgroundColor: '#0f1d32', borderColor: 'rgba(255,255,255,0.08)', color: '#f1f5f9', fontFamily: 'Cairo' }} />
-                        <Legend wrapperStyle={{ fontFamily: 'Cairo', fontSize: 10 }} />
-                        <Bar dataKey="الملاك والسجلات 50%" fill="#a855f7" radius={[2, 2, 0, 0]} />
-                        <Bar dataKey="الأجهزة والوقاية 50%" fill="#f59e0b" radius={[2, 2, 0, 0]} />
-                        <Bar dataKey="النتيجة الكلية 100%" fill="#10b981" radius={[2, 2, 0, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              ) : (
-                <div className="badge badge-orange py-md justify-center">لا توجد مراكز تخصصية مقيّمة حالياً لمطابقتها في المخطط البياني</div>
-              )}
 
               <div className="flex justify-between items-center">
                 <span className="text-primary font-bold text-xs">جدول نتائج تقييم المراكز التخصصية — المرحلة الأولى 50% والثانية 50%</span>
