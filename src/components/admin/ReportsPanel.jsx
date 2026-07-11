@@ -100,25 +100,49 @@ export default function ReportsPanel() {
     const matchesSector = selectedSectorId === 'all' || c.sectorId === parseInt(selectedSectorId);
     const matchesSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           c.sectorName.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesDir && matchesSector && matchesSearch;
+    
+    let matchesStatus = true;
+    if (sortBy === 'evaluated') {
+      matchesStatus = c.status === 'evaluated';
+    } else if (sortBy === 'pending') {
+      matchesStatus = c.status === 'pending';
+    }
+    
+    return matchesDir && matchesSector && matchesSearch && matchesStatus;
   });
 
   if (sortBy === 'highest') {
     filteredHCs.sort((a, b) => (b.score || 0) - (a.score || 0));
   } else if (sortBy === 'lowest') {
-    filteredHCs.sort((a, b) => (a.score || 0) - (b.score || 0));
+    filteredHCs.sort((a, b) => {
+      if (a.score === null) return 1;
+      if (b.score === null) return -1;
+      return a.score - b.score;
+    });
   }
 
   // Filters logic - Specialized Centers
   let filteredSpecs = allSpecializedCenters.filter(c => {
     const matchesDir = selectedDirId === 'all' || c.directorateId === parseInt(selectedDirId);
-    return matchesDir;
+    
+    let matchesStatus = true;
+    if (sortBy === 'evaluated') {
+      matchesStatus = c.status === 'evaluated';
+    } else if (sortBy === 'pending') {
+      matchesStatus = c.status === 'pending';
+    }
+    
+    return matchesDir && matchesStatus;
   });
 
   if (sortBy === 'highest') {
     filteredSpecs.sort((a, b) => (b.score || 0) - (a.score || 0));
   } else if (sortBy === 'lowest') {
-    filteredSpecs.sort((a, b) => (a.score || 0) - (b.score || 0));
+    filteredSpecs.sort((a, b) => {
+      if (a.score === null) return 1;
+      if (b.score === null) return -1;
+      return a.score - b.score;
+    });
   }
 
   // Statistics calculations
@@ -701,16 +725,18 @@ export default function ReportsPanel() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label className="text-xxs text-secondary font-semibold">الترتيب والفرز</label>
+                    <label className="text-xxs text-secondary font-semibold">حالة التقييم والترتيب</label>
                     <select
                       className="form-select text-xs"
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
+                      style={{ minWidth: '170px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
                     >
-                      <option value="none">ترتيب افتراضي</option>
+                      <option value="none">الكل (ترتيب افتراضي)</option>
                       <option value="highest">التقييم الأعلى</option>
                       <option value="lowest">التقييم الأدنى</option>
+                      <option value="evaluated">المراكز المقيّمة فقط</option>
+                      <option value="pending">المراكز غير المقيّمة فقط</option>
                     </select>
                   </div>
                 </div>
@@ -824,16 +850,18 @@ export default function ReportsPanel() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label className="text-xxs text-secondary font-semibold">الترتيب والفرز</label>
+                    <label className="text-xxs text-secondary font-semibold">حالة التقييم والترتيب</label>
                     <select
                       className="form-select text-xs"
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      style={{ minWidth: '150px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
+                      style={{ minWidth: '170px', height: '32px', padding: '2px 8px', borderRadius: 'var(--radius-md)' }}
                     >
-                      <option value="none">ترتيب افتراضي</option>
+                      <option value="none">الكل (ترتيب افتراضي)</option>
                       <option value="highest">التقييم الأعلى</option>
                       <option value="lowest">التقييم الأدنى</option>
+                      <option value="evaluated">المراكز المقيّمة فقط</option>
+                      <option value="pending">المراكز غير المقيّمة فقط</option>
                     </select>
                   </div>
                 </div>
