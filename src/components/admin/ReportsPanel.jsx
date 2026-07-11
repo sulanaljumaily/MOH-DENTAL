@@ -103,8 +103,7 @@ export default function ReportsPanel() {
   // Filters logic - Specialized Centers
   let filteredSpecs = allSpecializedCenters.filter(c => {
     const matchesDir = selectedDirId === 'all' || c.directorateId === parseInt(selectedDirId);
-    const matchesSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesDir && matchesSearch;
+    return matchesDir;
   });
 
   if (sortBy === 'highest') {
@@ -594,66 +593,6 @@ export default function ReportsPanel() {
       {/* 🏢 TAB 2: DIRECTORATES REPORTS */}
       {activeSubTab === 'directorates' && (
         <div className="flex flex-col gap-md">
-          {/* Header filters */}
-          <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
-            <div className="grid cols-3 gap-sm">
-              <div>
-                <label className="text-xxs text-secondary block mb-xs">الدائرة الصحية</label>
-                <select
-                  className="form-select py-xs text-xs"
-                  value={selectedDirId}
-                  onChange={(e) => {
-                    setSelectedDirId(e.target.value);
-                    setSelectedSectorId('all');
-                  }}
-                >
-                  <option value="all">كل الدوائر الصحية...</option>
-                  {directorates.map(d => (
-                    <option key={d.id} value={d.id}>{d.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xxs text-secondary block mb-xs">الالقطاع الصحي</label>
-                <select
-                  className="form-select py-xs text-xs"
-                  disabled={selectedDirId === 'all'}
-                  value={selectedSectorId}
-                  onChange={(e) => setSelectedSectorId(e.target.value)}
-                >
-                  <option value="all">كل القطاعات...</option>
-                  {selectedDirId !== 'all' && directorates.find(d => d.id === parseInt(selectedDirId))?.sectors.map(s => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xxs text-secondary block mb-xs">الترتيب والفرز</label>
-                <select
-                  className="form-select py-xs text-xs"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
-                  <option value="none">ترتيب افتراضي</option>
-                  <option value="highest">التقييم الأعلى</option>
-                  <option value="lowest">التقييم الأدنى</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="search-box mt-xs">
-              <Search className="search-box-icon" />
-              <input
-                type="text"
-                placeholder="ابحث بالاسم أو القطاع..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-          </div>
-
           {/* Subtabs: Health vs Specialized */}
           <div className="flex gap-sm border-b border-color/40 pb-sm">
             <button
@@ -673,6 +612,65 @@ export default function ReportsPanel() {
           {/* 1. HEALTH CENTERS REPORT */}
           {dirSubTab === 'health' && (
             <div className="flex flex-col gap-lg">
+              {/* Header filters for Health Centers */}
+              <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
+                <div className="grid cols-3 gap-sm">
+                  <div>
+                    <label className="text-xxs text-secondary block mb-xs">الدائرة الصحية</label>
+                    <select
+                      className="form-select py-xs text-xs"
+                      value={selectedDirId}
+                      onChange={(e) => {
+                        setSelectedDirId(e.target.value);
+                        setSelectedSectorId('all');
+                      }}
+                    >
+                      <option value="all">كل الدوائر الصحية...</option>
+                      {directorates.map(d => (
+                        <option key={d.id} value={d.id}>{d.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-xxs text-secondary block mb-xs">القطاع الصحي</label>
+                    <select
+                      className="form-select py-xs text-xs"
+                      disabled={selectedDirId === 'all'}
+                      value={selectedSectorId}
+                      onChange={(e) => setSelectedSectorId(e.target.value)}
+                    >
+                      <option value="all">كل القطاعات...</option>
+                      {selectedDirId !== 'all' && directorates.find(d => d.id === parseInt(selectedDirId))?.sectors.map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-xxs text-secondary block mb-xs">الترتيب والفرز</label>
+                    <select
+                      className="form-select py-xs text-xs"
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                    >
+                      <option value="none">ترتيب افتراضي</option>
+                      <option value="highest">التقييم الأعلى</option>
+                      <option value="lowest">التقييم الأدنى</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="search-box mt-xs">
+                  <Search className="search-box-icon" />
+                  <input
+                    type="text"
+                    placeholder="ابحث بالاسم أو القطاع..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
               
               {/* Clustered Bar Chart matching PDF page 2 */}
               {chartData.length > 0 ? (
@@ -752,7 +750,38 @@ export default function ReportsPanel() {
 
           {/* 2. SPECIALIZED CENTERS REPORT */}
           {dirSubTab === 'specialized' && (
-            <div className="flex flex-col gap-sm">
+            <div className="flex flex-col gap-lg">
+              {/* Header filters for Specialized Centers */}
+              <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
+                <div className="grid cols-2 gap-sm">
+                  <div>
+                    <label className="text-xxs text-secondary block mb-xs">الدائرة الصحية</label>
+                    <select
+                      className="form-select py-xs text-xs"
+                      value={selectedDirId}
+                      onChange={(e) => setSelectedDirId(e.target.value)}
+                    >
+                      <option value="all">كل الدوائر الصحية...</option>
+                      {directorates.map(d => (
+                        <option key={d.id} value={d.id}>{d.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-xxs text-secondary block mb-xs">الترتيب والفرز</label>
+                    <select
+                      className="form-select py-xs text-xs"
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                    >
+                      <option value="none">ترتيب افتراضي</option>
+                      <option value="highest">التقييم الأعلى</option>
+                      <option value="lowest">التقييم الأدنى</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
               <div className="flex justify-between items-center">
                 <span className="text-primary font-bold text-xs">جدول نتائج تقييم المراكز التخصصية — المرحلة الأولى 50% والثانية 50%</span>
                 <div className="flex gap-sm">
