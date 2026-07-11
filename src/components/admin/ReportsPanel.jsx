@@ -567,21 +567,22 @@ export default function ReportsPanel() {
                 <span className="text-primary font-bold text-xs">🏆 أفضل المراكز الصحية أداءً ({overviewLimit === 1000 ? 'الكل' : overviewLimit} مراكز)</span>
               </div>
               <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', width: '100%' }}>
-                <table className="data-table" style={{ minWidth: '600px', width: '100%', tableLayout: 'fixed' }}>
+                <table className="data-table" style={{ minWidth: '700px', width: '100%', tableLayout: 'fixed' }}>
                   <thead>
                     <tr>
                       <th style={{ width: '45px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>#</th>
-                      <th style={{ width: '150px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'right' }}>المركز الصحي</th>
-                      <th style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'right' }}>الدائرة / القطاع</th>
-                      <th style={{ width: '90px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>الخدمة 40%</th>
-                      <th style={{ width: '90px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>المؤشرات 60%</th>
-                      <th style={{ width: '110px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>النتيجة النهائية</th>
+                      <th style={{ width: '140px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'right' }}>المركز الصحي</th>
+                      <th style={{ width: '130px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'right' }}>الدائرة</th>
+                      <th style={{ width: '130px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'right' }}>القطاع</th>
+                      <th style={{ width: '80px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>الخدمة 40%</th>
+                      <th style={{ width: '85px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>المؤشرات 60%</th>
+                      <th style={{ width: '90px', padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}>النتيجة</th>
                     </tr>
                   </thead>
                   <tbody>
                     {topHCsToShow.length === 0 ? (
                       <tr>
-                        <td colSpan={6} style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--text-secondary)' }}>
+                        <td colSpan={7} style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--text-secondary)' }}>
                           لا توجد مراكز صحية مقيّمة تطابق خيارات التصفية المحددة.
                         </td>
                       </tr>
@@ -590,7 +591,8 @@ export default function ReportsPanel() {
                         <tr key={c.id}>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', color: idx === 0 ? '#f59e0b' : 'var(--text-muted)', fontWeight: 800 }}>{idx + 1}</td>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={c.name}>{c.name}</td>
-                          <td style={{ padding: 'var(--space-md) var(--space-xs)', color: 'var(--text-secondary)', fontSize: '9px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={`${c.directorateName} • ${c.sectorName}`}>{c.directorateName} • {c.sectorName}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', color: 'var(--text-secondary)', fontSize: '10px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={c.directorateName}>{c.directorateName.replace("دائرة صحة ", "").replace("دائرة صحة", "").trim()}</td>
+                          <td style={{ padding: 'var(--space-md) var(--space-xs)', color: 'var(--text-secondary)', fontSize: '10px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={c.sectorName}>{c.sectorName}</td>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', fontWeight: 800, color: '#3b82f6' }}>{c.serviceScore}</td>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center', fontWeight: 800, color: '#ef4444' }}>{c.indicatorScore}</td>
                           <td style={{ padding: 'var(--space-md) var(--space-xs)', textAlign: 'center' }}><ScoreBadge score={c.score} /></td>
