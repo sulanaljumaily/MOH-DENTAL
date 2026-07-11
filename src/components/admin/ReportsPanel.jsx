@@ -366,17 +366,19 @@ export default function ReportsPanel() {
       <div className="print-header print-only" style={{ direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #000', paddingBottom: '10px', marginBottom: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div className="user-avatar green font-bold text-center flex items-center justify-center" style={{ width: 44, height: 44, border: '2px solid #000', color: '#000', borderRadius: '8px', background: 'transparent' }}>
-              <Stethoscope size={24} style={{ color: '#000' }} />
-            </div>
+            <img 
+              src="/moh_logo.png" 
+              alt="وزارة الصحة العراقية" 
+              style={{ width: 50, height: 50, objectFit: 'contain' }} 
+            />
             <div>
               <h2 style={{ fontSize: '13pt', fontWeight: 'bold', margin: 0, color: '#000' }}>وزارة الصحة العراقية</h2>
-              <p style={{ fontSize: '9pt', margin: '2px 0 0 0', color: '#475569' }}>دائرة الأمور الفنية - قسم صحة الفم والأسنان</p>
+              <p style={{ fontSize: '9pt', margin: '2px 0 0 0', color: '#475569' }}>قسم صحة الفم والأسنان</p>
             </div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <h1 style={{ fontSize: '15pt', fontWeight: 'black', margin: 0, color: '#000' }}>منصة التقييم الصحي الوطني</h1>
-            <p style={{ fontSize: '9pt', margin: '4px 0 0 0', color: '#475569' }}>تقرير تقييم الأداء والامتثال الميداني للمؤسسات الصحية</p>
+            <h1 style={{ fontSize: '15pt', fontWeight: 'black', margin: 0, color: '#000' }}>منصة التقييم الصحي</h1>
+            <p style={{ fontSize: '9pt', margin: '4px 0 0 0', color: '#475569' }}>تقرير تقييم الأداء والامتثال الميداني</p>
           </div>
           <div style={{ textAlign: 'left', fontSize: '8.5pt', color: '#475569' }}>
             <p>تاريخ الطباعة: {new Date().toLocaleDateString('ar-IQ')}</p>
