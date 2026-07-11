@@ -131,6 +131,15 @@ export default function ReportsPanel() {
     'النتيجة الكلية 100%': c.score || 0
   }));
 
+  // Chart data preparing for Specialized Centers
+  const evaluatedSpecList = filteredSpecs.filter(c => c.status === 'evaluated').slice(0, 8);
+  const specChartData = evaluatedSpecList.map(c => ({
+    name: c.name.replace('مركز تخصصي ', '').replace('م.ت ', ''),
+    'الملاك والسجلات 50%': c.stage1Score || 0,
+    'الأجهزة والوقاية 50%': c.stage2Score || 0,
+    'النتيجة الكلية 100%': c.score || 0
+  }));
+
   // Helper to export CSV/Excel with UTF-8 BOM for Arabic support
   const exportToExcel = (data, filename, headers, mapper) => {
     let csvContent = "\uFEFF"; // UTF-8 BOM
@@ -787,6 +796,31 @@ export default function ReportsPanel() {
                   </div>
                 </div>
               </div>
+              {/* Clustered Bar Chart for Specialized Centers */}
+              {specChartData.length > 0 ? (
+                <div className="chart-container">
+                  <h3 className="chart-title flex items-center gap-sm">
+                    <BarChart3 size={16} className="text-accent-green" /> مقارنة مؤشر الملاك والسجلات 50% والأجهزة والوقاية 50% للمراكز التخصصية
+                  </h3>
+                  <div style={{ width: '100%', height: 260, direction: 'ltr' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={specChartData} margin={{ top: 20, right: 0, left: -25, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                        <XAxis dataKey="name" stroke="#64748b" fontSize={9} tickLine={false} />
+                        <YAxis stroke="#64748b" fontSize={9} tickLine={false} />
+                        <Tooltip contentStyle={{ backgroundColor: '#0f1d32', borderColor: 'rgba(255,255,255,0.08)', color: '#f1f5f9', fontFamily: 'Cairo' }} />
+                        <Legend wrapperStyle={{ fontFamily: 'Cairo', fontSize: 10 }} />
+                        <Bar dataKey="الملاك والسجلات 50%" fill="#a855f7" radius={[2, 2, 0, 0]} />
+                        <Bar dataKey="الأجهزة والوقاية 50%" fill="#f59e0b" radius={[2, 2, 0, 0]} />
+                        <Bar dataKey="النتيجة الكلية 100%" fill="#10b981" radius={[2, 2, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              ) : (
+                <div className="badge badge-orange py-md justify-center">لا توجد مراكز تخصصية مقيّمة حالياً لمطابقتها في المخطط البياني</div>
+              )}
+
               <div className="flex justify-between items-center">
                 <span className="text-primary font-bold text-xs">جدول نتائج تقييم المراكز التخصصية — المرحلة الأولى 50% والثانية 50%</span>
                 <div className="flex gap-sm">
