@@ -78,7 +78,11 @@ export default function LoginPage() {
       >
         {/* Ministry Logo */}
         <motion.div className="login-logo" variants={itemVariants}>
-          <Shield size={36} className="text-white" />
+          <img 
+            src="/moh_logo.png" 
+            alt="وزارة الصحة العراقية" 
+            style={{ width: '90%', height: '90%', objectFit: 'contain' }} 
+          />
         </motion.div>
 
         {/* Title */}
@@ -146,9 +150,9 @@ export default function LoginPage() {
 
         {/* Footer */}
         <motion.div className="login-footer" variants={itemVariants}>
-          <p>وزارة الصحة العراقية • دائرة الأمور الفنية</p>
+          <p>وزارة الصحة العراقية</p>
           <p className="text-secondary mt-xs" style={{ fontSize: '10px' }}>
-            جمهورية العراق © 2024
+            جمهورية العراق © {new Date().getFullYear()}
           </p>
         </motion.div>
       </motion.div>

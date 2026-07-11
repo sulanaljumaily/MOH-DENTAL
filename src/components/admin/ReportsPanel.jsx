@@ -481,7 +481,7 @@ export default function ReportsPanel() {
           )}
 
           {/* Quick Actions */}
-          <div className="p-md bg-card rounded-lg border border-color flex items-center justify-between">
+          <div className="p-md bg-card rounded-lg border border-color flex items-center justify-between print-none">
             <div>
               <h4 className="text-primary font-bold text-sm">تصدير التقرير الوطني العام</h4>
               <p className="text-secondary text-xs mt-xs">تنزيل ملف الإحصائيات الشامل</p>
@@ -647,7 +647,7 @@ export default function ReportsPanel() {
               )}
 
               {/* Header filters for Health Centers */}
-              <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
+              <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm print-none">
                 <div className="flex flex-wrap gap-md items-center">
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label className="text-xxs text-secondary font-semibold">الدائرة الصحية</label>
@@ -789,7 +789,7 @@ export default function ReportsPanel() {
               )}
 
               {/* Header filters for Specialized Centers */}
-              <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm">
+              <div className="p-md bg-card rounded-lg border border-color flex flex-col gap-sm print-none">
                 <div className="flex flex-wrap gap-md items-center">
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label className="text-xxs text-secondary font-semibold">الدائرة الصحية</label>
