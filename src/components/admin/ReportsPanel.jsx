@@ -363,26 +363,27 @@ export default function ReportsPanel() {
   return (
     <div className="flex flex-col gap-lg">
       {/* Official Print Header (Visible only when printing) */}
-      <div className="print-header print-only" style={{ direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #000', paddingBottom: '10px', marginBottom: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <img 
-              src="/moh_logo.png" 
-              alt="وزارة الصحة العراقية" 
-              style={{ width: 50, height: 50, objectFit: 'contain' }} 
-            />
-            <div>
-              <h2 style={{ fontSize: '13pt', fontWeight: 'bold', margin: 0, color: '#000' }}>وزارة الصحة العراقية</h2>
-              <p style={{ fontSize: '9pt', margin: '2px 0 0 0', color: '#475569' }}>قسم صحة الفم والأسنان</p>
-            </div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <h1 style={{ fontSize: '15pt', fontWeight: 'black', margin: 0, color: '#000' }}>منصة التقييم الصحي</h1>
-            <p style={{ fontSize: '9pt', margin: '4px 0 0 0', color: '#475569' }}>تقرير تقييم الأداء والامتثال الميداني</p>
-          </div>
-          <div style={{ textAlign: 'left', fontSize: '8.5pt', color: '#475569' }}>
-            <p>تاريخ الطباعة: {new Date().toLocaleDateString('ar-IQ')}</p>
-            <p>الوقت: {new Date().toLocaleTimeString('ar-IQ')}</p>
+      <div className="print-header print-only" style={{ direction: 'rtl', fontFamily: 'Cairo, sans-serif', width: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderBottom: '2px solid #000', paddingBottom: '15px', marginBottom: '25px', width: '100%' }}>
+          {/* Logo Section */}
+          <img 
+            src="/moh_logo.png" 
+            alt="وزارة الصحة العراقية" 
+            style={{ height: '90px', objectFit: 'contain', marginBottom: '10px' }} 
+          />
+          
+          {/* Department */}
+          <h2 style={{ fontSize: '12pt', fontWeight: 'bold', margin: '4px 0', color: '#000' }}>وزارة الصحة العراقية</h2>
+          <p style={{ fontSize: '10pt', margin: '2px 0 10px 0', color: '#475569', fontWeight: '600' }}>قسم صحة الفم والأسنان</p>
+          
+          {/* Title */}
+          <h1 style={{ fontSize: '18pt', fontWeight: 'black', margin: '10px 0 5px 0', color: '#000' }}>منصة التقييم الصحي</h1>
+          <p style={{ fontSize: '11pt', margin: '2px 0 12px 0', color: '#475569' }}>تقرير تقييم الأداء والامتثال الميداني</p>
+          
+          {/* Metadata */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '9pt', color: '#475569', marginTop: '5px', padding: '0 10px' }}>
+            <span>تاريخ الطباعة: {new Date().toLocaleDateString('ar-IQ')}</span>
+            <span>التقرير الوطني الموحد</span>
           </div>
         </div>
       </div>
