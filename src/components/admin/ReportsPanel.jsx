@@ -22,7 +22,10 @@ function ScoreBadge({ score, pending = 'قيد الانتظار' }) {
 
 const formatCenterName = (name) => {
   if (!name) return '';
-  const clean = name.replace(/^مركز صحي\s+/, '').trim();
+  // 1. Remove "مركز صحي" at the start
+  let clean = name.replace(/^مركز صحي\s+/, '').trim();
+  // 2. Remove any existing "م.ص" or similar prefixes (like "م.ص.", "م ص") followed by space
+  clean = clean.replace(/^(م\.ص\.|م\.ص|م\s+ص)\s+/, '').trim();
   return `م.ص ${clean}`;
 };
 import { 
